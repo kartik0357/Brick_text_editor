@@ -14,14 +14,17 @@ OUTPUT = ./Build
 ROOT_DIR = .
 ROOT_DIR_OBJ = $(patsubst $(ROOT_DIR)/%.c,$(ROOT_DIR)/%.o,$(wildcard $(ROOT_DIR)/*.c))
 
-Bricks:MAKEDIR $(ROOT_DIR_OBJ) Brick_core.o Brick_sys.o
-	$(CC) $(OUTPUT)/*.o -o $(OUTPUT)/$(EXECUTABLE)
+CORE_DIR = ./core
+CORE_DIR_OBJ = $(patsubst $(CORE_DIR)/%.c,$(CORE_DIR)/%.o,$(wildcard $(CORE_DIR)/*.c))
+
+Bricks:MAKEDIR $(ROOT_DIR_OBJ) $(CORE_DIR_OBJ) Brick_sys.o
+	$(CC) $(OUTPUT)/*.o $(OUTPUT)/core/*.o -o $(OUTPUT)/$(EXECUTABLE)
 
 MAKEDIR:
-	mkdir -p Build 
+	mkdir -p Build/core
 
-Brick_core.o: $(wildcard ./core/*.c)
-	$(CC) -I $(INCLUDE) -c $^ -o $(OUTPUT)/$@  
+$(CORE_DIR)/%.o: $(CORE_DIR)/%.c
+	$(CC) -I $(INCLUDE) -c $< -o $(OUTPUT)/$@  
 
 Brick_sys.o: $(wildcard ./system/*.c)
 	$(CC) -I $(INCLUDE) -c $^ -o $(OUTPUT)/$@

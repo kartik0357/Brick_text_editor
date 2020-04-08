@@ -4,6 +4,7 @@
 #include <termios.h>
 #include <sys/ioctl.h>
 #include <brick.h>
+#include <brick_buf_api.h>
 #include <brick_core.h>
 #include <brick_exit.h>
 
