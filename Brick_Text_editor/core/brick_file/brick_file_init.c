@@ -6,14 +6,51 @@
 void editorAppendRow(struct brick_win_size *win,char *line, size_t linelen)
 {
 	int row = win->data_row;
-	win->container = realloc(win->container, sizeof(row_container) * (win->data_row +1));	
-	win->container[row].data = malloc(linelen + 1);
 	
-	char *str  = win->container[row].data;
-	memcpy(str,line,linelen);
-	str[linelen] = '\0';
-	win->container[row].size = linelen;
+	if(linelen > win->col)
+	{
+		int off = 0;
+		int tmp_len = linelen;
+		while(tmp_len > win->col)
+		{
+			win->container = realloc(win->container, sizeof(row_container) * (row+1));
+			win->container[row].data = malloc(win->col);
+			
+			char *str  = win->container[row].data;
+			memcpy(str,(line+off),win->col);
+			
+			off = off + win->col;
+			tmp_len -= win->col;
+			
+			win->container[row].size = win->col;
+			row++;
+		}
+		if(tmp_len > 0)
+		{
+			win->container = realloc(win->container, sizeof(row_container) * (row+1));
+			win->container[row].data = malloc(tmp_len);
+			
+			char *str  = win->container[row].data;
+			memcpy(str,(line+off),tmp_len);
+			
+			win->container[row].size = tmp_len;
+			row++;
+		}
+	}
+	else
+	{
+		win->container = realloc(win->container, sizeof(row_container) * (row+1));	
+		win->container[row].data = malloc(linelen + 1);
+		
+		char *str  = win->container[row].data;
+		memcpy(str,line,linelen);
+		str[linelen] = '\0';
+		
+		win->container[row].size = linelen;
+		row++;
+	}
 	
+	win->data_row = row;
 	win->data_row++;
 	
 }
