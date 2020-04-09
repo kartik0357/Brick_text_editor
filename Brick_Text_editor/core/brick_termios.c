@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <termios.h>
 #include <errno.h>
-#include <brick.h>
+#include <brick_init.h>
 #include <brick_termios.h>
 #include <brick_exit.h>
 
