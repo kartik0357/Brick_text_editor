@@ -25,7 +25,7 @@ CORE_FILE_DIR_OBJ = $(patsubst $(CORE_FILE_DIR)/%.c,$(CORE_FILE_DIR)/%.o,$(wildc
 
 
 Bricks:MAKEDIR $(ROOT_DIR_OBJ) $(CORE_DIR_OBJ) $(CORE_FILE_DIR_OBJ) $(SYS_DIR_OBJ) 
-	$(CC) $(OUTPUT)/*.o $(OUTPUT)/core/*.o $(OUTPUT)/core/brick_file/*.o $(OUTPUT)/system/*.o -o $(OUTPUT)/$(EXECUTABLE)
+	$(CC) $(OUTPUT)/*.o $(OUTPUT)/core/*.o $(OUTPUT)/core/brick_file/*.o $(OUTPUT)/system/*.o -lpthread -o $(OUTPUT)/$(EXECUTABLE)
 
 	
 MAKEDIR:
